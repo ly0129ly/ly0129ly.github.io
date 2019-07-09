@@ -62,6 +62,105 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-uniswap" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/07/uniswap/" class="article-date">
+  <time datetime="2019-07-07T06:34:04.136Z" itemprop="datePublished">2019-07-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>##什么是uniswap？</p>
+<p>发布在以太坊主网上的去中心化交易所协议，可以使用任意ETH/ERC20代币兑换等值的ERC20/ETH代币，</p>
+<p>不需要挂单撮合，实时成交，而且是完全去中心化，匿名。在以太坊上，由一系列ETH-ERC20智能合约组成。</p>
+<h2 id="为什么是uniswap"><a href="#为什么是uniswap" class="headerlink" title="为什么是uniswap"></a>为什么是uniswap</h2><p>目前去中心化交易所有三种方式：</p>
+<ol>
+<li>链上订单撮合和结算，如 Bitshares</li>
+<li>链下订单撮合链上结算，如 0x，鲸交所 WhaleEx</li>
+<li>基于智能合约管理的储备金(即任意token按照比率进行自动兑换)</li>
+</ol>
+<p>而uniswap是属于第三种类型。那为什么选择uniswap呢？</p>
+<ul>
+<li>Uniswap 没有自己的原生代币，他只是一种代币交换协议。</li>
+<li>任何人都可以发起上币的交易，不受中心化机构的约束。</li>
+<li>任何人都可以成为做市商，只要你为Exchange提供流动性。</li>
+<li>Uniswap 没有传统交易所的限价订单，交易者选好指定交易对，系统根据算法实时报价兑换。</li>
+</ul>
+<h2 id="uniswap的原理"><a href="#uniswap的原理" class="headerlink" title="uniswap的原理"></a>uniswap的原理</h2><p>在 Uniswap 的交易场景中，有两种用户角色：</p>
+<ol>
+<li>兑换者：为了代币兑换，即 swap</li>
+<li>做市商：提供流动性</li>
+</ol>
+<p>凡是能够将等值的 ETH 和 ERC-20 代币注入 Uniswap 交易所合约的人都可以是流动性提供者。作为回报，流动性提供者会从交易所合约中获得代币，也可以在任何时候将自己在流动性池中的份额取出来。但凡有交易者在交易所进行交易，都要往流动性池中注入 0.3% 的交易费。由于不会生成新的流动性代币，这些交易费会按比例分配给所有流动性提供者。做市商在 Uniswap 中可以有以下操作：</p>
+<ol>
+<li>添加流动金</li>
+<li>删除流动金（提现）</li>
+<li>创建交易对</li>
+</ol>
+<p>uniswap使用了<code>恒定乘积</code>做市公式，根据ETH和ERC20储备的相对规模设定汇率，并根据交易的数量改变这一比例。公式如下：<br>$$<br>x * y = k<br>$$<br><code>x</code>  代表 x代币的流动性(即x代币的在exchange总的储备量)。</p>
+<p><code>y</code>  代表y代币的流动性(即y代币的在exchange总的储备量)。</p>
+<p>当做市商要为exchange注入资金提供流动性时，需要给 Uniswap 的资金池中存入等价值的两种代币。兑换者发起兑换交易时，根据以上的公式，假如用x代币去兑换等值的y代币，我们可以推导出另一个公式：<br>$$<br>(x+\Delta x)(y-\Delta y)=k<br>$$<br>我们可以得到兑换的y代币的数量<br>$$<br>\Delta y = y - k/(x+\Delta x)<br>$$<br>这样流动性池中x代币数量增加，y代币数量减少，x代币的价值相当于y代币在降低，但是总量k在交易前后保持不变，直到有做市商增加新的流动性。在以太坊中，如果是ERC20代币兑换ERC20代币，则系统需进行两次兑换，举个例子，如下图<img src="/Users/zhangzhiqiang/Downloads/uniswap.jpg" alt="uniswap">用户使用ABC代币兑换XYZ代币，由于以太坊中的uniswap只能使用eth作为中间代币，所以合约要先把ABC代币兑换ETH，再使用ETH兑换XYZ代币。在ABC代币兑换成ETH过程中，ABC的总流动性增加，ETH减少，使用ETH兑换XYZ代币过程中，ETH总流动性增加，XYZ的总流动性减少。</p>
+<p>另外，虽然在交易过程中，做市商能够从交易费中获利，但是资产仍有可能会贬值。当交易量在流动性池中占比很小的情况下，我们可以得出下面的公式：<code>Y=x/y</code>。其中<code>Y</code>代表<code>y代币</code>相对<code>x代币</code>价格，结合上述两个公式，假设总流动性恒定的情况下，我们可以计算出特定价格下每个流动性池的大小<br>$$<br>x=\sqrt{(k/Y)}<br>$$</p>
+<p>$$<br>y=\sqrt{(k*Y)}<br>$$</p>
+<p>有了以上两个公式，我们可以举个例子：</p>
+<p>假设一个做市商往流动性池中注入了 1 个 ETH 和 100 个 DAI 后，Uniswap 的 ETH/DAI 交易对流动性池中共有 100 个 ETH 和 10000 个 DAI，占整个流动性池中代币总量的 1% ，当市场价格出现波动，经过几笔交易之后，价格发生了变化（交易费忽略不计），现在 1 个 ETH 价值 120 个 DAI 。那么整个流动性池中的代币储备量可以计算得到：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ETH = (100*10000/120)^(1/2)=91.28</span><br><span class="line">DAI = (100*10000 * 120)^(1/2)=10954.4511</span><br></pre></td></tr></table></figure>
+<p>由于做市商持有流动性池中 1% 的代币，所以他可以从池中取出 0.9128 个 ETH 和 109.54 个 DAI，如果全都换算成DAI，在池中持有 219.09 个 DAI，而按照之前 1 个 ETH 和 100 个 DAI 来计算的话，不难看出初始价值是 220 个 DAI，相比之下，流动性提供者反而损失了 0.91 个 DAI。但是当价格趋于稳定，回调到原始比例的时候，这种利益损失会逐渐缩小。</p>
+<p>详细信息请看<a href="https://hackmd.io/@477aQ9OrQTCbVR3fq1Qzxg/HJ9jLsfTz?type=view" target="_blank" rel="noopener">白皮书</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/07/07/uniswap/" data-id="cjxv695qf0000b5jkii1q4xp9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-RAFT" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/06/28/RAFT/" class="article-date">
+  <time datetime="2019-06-28T05:36:58.000Z" itemprop="datePublished">2019-06-28</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/28/RAFT/">RAFT</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/06/28/RAFT/" data-id="cjxv695qk0001b5jk6mu5yrl1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sdk" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/06/04/sdk/" class="article-date">
@@ -149,7 +248,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/06/04/sdk/" data-id="cjwhmy7v70000szjkqoenb3bm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/06/04/sdk/" data-id="cjxv695qn0003b5jkz3ltkhem" class="article-share-link">Share</a>
       
       
     </footer>
@@ -194,7 +293,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/05/23/hello-world/" data-id="cjwhmy7vd0001szjkml0cfaux" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/05/23/hello-world/" data-id="cjxv695qm0002b5jk8tak0i02" class="article-share-link">Share</a>
       
       
     </footer>
@@ -222,7 +321,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li></ul>
     </div>
   </div>
 
@@ -233,6 +332,14 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/07/07/uniswap/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/28/RAFT/">RAFT</a>
+          </li>
         
           <li>
             <a href="/2019/06/04/sdk/">(no title)</a>
