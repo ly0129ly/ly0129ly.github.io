@@ -14,12 +14,12 @@
 <meta property="og:site_name" content="Qiang&#39;s Blog">
 <meta property="og:description" content="##什么是uniswap？ 发布在以太坊主网上的去中心化交易所协议，可以使用任意ETH/ERC20代币兑换等值的ERC20/ETH代币， 不需要挂单撮合，实时成交，而且是完全去中心化，匿名。在以太坊上，由一系列ETH-ERC20智能合约组成。 为什么是uniswap目前去中心化交易所有三种方式：  链上订单撮合和结算，如 Bitshares 链下订单撮合链上结算，如 0x，鲸交所 WhaleEx">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="http://yoursite.com/Users/zhangzhiqiang/Downloads/uniswap.jpg">
-<meta property="og:updated_time" content="2019-07-09T02:03:57.647Z">
+<meta property="og:image" content="https://blobscdn.gitbook.com/v0/b/gitbook-28427.appspot.com/o/assets%2F-LNun-MDdANv-PeRglM0%2F-LhMvlm4vT3PIKZ2sB3N%2F-LhMvmuSAzGC7IvLdU8e%2Ferc20-to-erc20.png?generation=1560548423005775&alt=media">
+<meta property="og:updated_time" content="2019-07-09T05:32:09.835Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Qiang&#39;s Blog">
 <meta name="twitter:description" content="##什么是uniswap？ 发布在以太坊主网上的去中心化交易所协议，可以使用任意ETH/ERC20代币兑换等值的ERC20/ETH代币， 不需要挂单撮合，实时成交，而且是完全去中心化，匿名。在以太坊上，由一系列ETH-ERC20智能合约组成。 为什么是uniswap目前去中心化交易所有三种方式：  链上订单撮合和结算，如 Bitshares 链下订单撮合链上结算，如 0x，鲸交所 WhaleEx">
-<meta name="twitter:image" content="http://yoursite.com/Users/zhangzhiqiang/Downloads/uniswap.jpg">
+<meta name="twitter:image" content="https://blobscdn.gitbook.com/v0/b/gitbook-28427.appspot.com/o/assets%2F-LNun-MDdANv-PeRglM0%2F-LhMvlm4vT3PIKZ2sB3N%2F-LhMvmuSAzGC7IvLdU8e%2Ferc20-to-erc20.png?generation=1560548423005775&alt=media">
   
     <link rel="alternate" href="/atom.xml" title="Qiang&#39;s Blog" type="application/atom+xml">
   
@@ -107,7 +107,7 @@
 </ol>
 <p>uniswap使用了<code>恒定乘积</code>做市公式，根据ETH和ERC20储备的相对规模设定汇率，并根据交易的数量改变这一比例。公式如下：<br>$$<br>x * y = k<br>$$<br><code>x</code>  代表 x代币的流动性(即x代币的在exchange总的储备量)。</p>
 <p><code>y</code>  代表y代币的流动性(即y代币的在exchange总的储备量)。</p>
-<p>当做市商要为exchange注入资金提供流动性时，需要给 Uniswap 的资金池中存入等价值的两种代币。兑换者发起兑换交易时，根据以上的公式，假如用x代币去兑换等值的y代币，我们可以推导出另一个公式：<br>$$<br>(x+\Delta x)(y-\Delta y)=k<br>$$<br>我们可以得到兑换的y代币的数量<br>$$<br>\Delta y = y - k/(x+\Delta x)<br>$$<br>这样流动性池中x代币数量增加，y代币数量减少，x代币的价值相当于y代币在降低，但是总量k在交易前后保持不变，直到有做市商增加新的流动性。在以太坊中，如果是ERC20代币兑换ERC20代币，则系统需进行两次兑换，举个例子，如下图<img src="/Users/zhangzhiqiang/Downloads/uniswap.jpg" alt="uniswap">用户使用ABC代币兑换XYZ代币，由于以太坊中的uniswap只能使用eth作为中间代币，所以合约要先把ABC代币兑换ETH，再使用ETH兑换XYZ代币。在ABC代币兑换成ETH过程中，ABC的总流动性增加，ETH减少，使用ETH兑换XYZ代币过程中，ETH总流动性增加，XYZ的总流动性减少。</p>
+<p>当做市商要为exchange注入资金提供流动性时，需要给 Uniswap 的资金池中存入等价值的两种代币。兑换者发起兑换交易时，根据以上的公式，假如用x代币去兑换等值的y代币，我们可以推导出另一个公式：<br>$$<br>(x+\Delta x)(y-\Delta y)=k<br>$$<br>我们可以得到兑换的y代币的数量<br>$$<br>\Delta y = y - k/(x+\Delta x)<br>$$<br>这样流动性池中x代币数量增加，y代币数量减少，x代币的价值相当于y代币在降低，但是总量k在交易前后保持不变，直到有做市商增加新的流动性。在以太坊中，如果是ERC20代币兑换ERC20代币，则系统需进行两次兑换，举个例子，如下图<img src="https://blobscdn.gitbook.com/v0/b/gitbook-28427.appspot.com/o/assets%2F-LNun-MDdANv-PeRglM0%2F-LhMvlm4vT3PIKZ2sB3N%2F-LhMvmuSAzGC7IvLdU8e%2Ferc20-to-erc20.png?generation=1560548423005775&amp;alt=media" alt="uniswap">用户使用ABC代币兑换XYZ代币，由于以太坊中的uniswap只能使用eth作为中间代币，所以合约要先把ABC代币兑换ETH，再使用ETH兑换XYZ代币。在ABC代币兑换成ETH过程中，ABC的总流动性增加，ETH减少，使用ETH兑换XYZ代币过程中，ETH总流动性增加，XYZ的总流动性减少。</p>
 <p>另外，虽然在交易过程中，做市商能够从交易费中获利，但是资产仍有可能会贬值。当交易量在流动性池中占比很小的情况下，我们可以得出下面的公式：<code>Y=x/y</code>。其中<code>Y</code>代表<code>y代币</code>相对<code>x代币</code>价格，结合上述两个公式，假设总流动性恒定的情况下，我们可以计算出特定价格下每个流动性池的大小<br>$$<br>x=\sqrt{(k/Y)}<br>$$</p>
 <p>$$<br>y=\sqrt{(k*Y)}<br>$$</p>
 <p>有了以上两个公式，我们可以举个例子：</p>
